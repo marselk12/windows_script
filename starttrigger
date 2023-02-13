@@ -1,0 +1,3 @@
+cd /home/rdp_file/
+chmod +x startwin.sh
+./startwin.sh
