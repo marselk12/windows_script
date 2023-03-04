@@ -1,16 +1,18 @@
 #/bin/bash
 
-red='\e[1;31m'
-green='\e[0;32m'
-yell='\e[1;33m'
-tyblue='\e[1;36m'
+bold='\e[1;'
+strnd='\e[0;'
+red='31m'
+green='32m'
+yell='33m'
+tyblue='36m'
 NC='\e[0m'
 clear
 cd /home
 if [ -d "rdp_file" ]; then
  cd rdp_file
 else
- echo -e "[${red}*]${red} Can't find any image installed, please install software installer to download image!${NC}"
+ echo -e "${strnd}${red}[${bold}${tyblue}*${strnd}${red]]${bold}${red} Can't find any image installed, please install software installer to download image!${NC}"
  exit 1
 fi
 
@@ -29,7 +31,7 @@ fi
  fi
  
  if [ "${realtime}" == "${freetrialdate}" ]; then
-  echo -e "[ ${red}License${NC} ] ${red}You're free trial has ended, please buy a license!${NC}" 
+  echo -e "[ ${strnd}${red}License${strnd}${NC} ] ${strnd}${red}You're free trial has ended, please buy a license!${NC}" 
   exit 1
  fi
  if [ ! -f "dontasksavedconf" ]; then
@@ -41,11 +43,11 @@ fi
  ngrokregion=$(cat ngrokregiontxt)
 
  if [ -f "freetrialdate.txt" ]; then
-  echo -e "[ ${red}License${NC} ] ${yell}You're using trial version${NC},${red} Please buy a license to use a full version${NC}"
+  echo -e "[ ${strnd}${red}License${NC} ] ${strnd}${yell}You're using trial version${NC},${strnd}${red} Please buy a license to use a full version${NC}"
  fi
 
  #echo $ngrokregion
  if [ -f "win2012.vhd" ]; then
-  echo -e "[ ${green}System${NC} ] Starting up your windows 2012..."
+  echo -e "[ ${strnd}${green}System${NC} ] Starting up your windows 2012..."
   qemu-system-x86_64 -hda win2012.vhd -m 58G -smp cores=2 -net user,hostfwd=tcp::3388-:3389 -net nic -object rng-random,id=rng0,filename=/dev/urandom -device virtio-rng-pci,rng=rng0 -vga vmware -nographic &>/dev/null &
  fi
