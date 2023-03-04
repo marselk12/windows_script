@@ -1,0 +1,155 @@
+red='\e[1;31m'
+green='\e[0;32m'
+yell='\e[1;33m'
+tyblue='\e[1;36m'
+NC='\e[0m'
+
+purple() { echo -e "\\033[35;1m${*}\\033[0m"; }
+tyblue() { echo -e "\\033[36;1m${*}\\033[0m"; }
+yellow() { echo -e "\\033[33;1m${*}\\033[0m"; }
+green() { echo -e "\\033[32;1m${*}\\033[0m"; }
+red() { echo -e "\\033[31;1m${*}\\033[0m"; }
+
+cd /home/
+cd rdp_file
+
+regionngrok() {
+echo -e "           \e[40m[ Ngrok ]${NC}"
+echo -ne "${green}[ Ngrok ]${NC} Ngrok Authtoken (ctrl-v to paste): "
+green "Authtoken hide & saved!"
+./ngrok authtoken $ngroktoken > /dev/null 2>&1
+echo -e "${green}[ Ngrok ]${NC}     \e[0;90mNgrok Region${NC}"
+echo -e "${yell}1.${NC} us - United States (Ohio)"
+echo -e "${yell}2.${NC} eu - Europe (Frankfurt)"
+echo -e "${yell}3.${NC} ap - Asia/Pasific (Singapore)"
+echo -e "${yell}4.${NC} au - Australia (Sydney)"
+echo -e "${yell}5.${NC} sa - South America (Sao"
+echo -e "${yell}6.${NC} jp - Japan (Tokyo)"
+echo -e "${yell}7.${NC} in - India (Mumbai)"
+echo -ne "${green}[ Ngrok ]${NC} Choice wan't region do you want: "
+read ngrokregioninput
+
+if [ "$ngrokregioninput" == "1" ]; then
+ngrokregion="us"
+elif [ "$ngrokregioninput" == "2" ]; then
+ngrokregion="eu"
+elif [ "$ngrokregioninput" == "3" ]; then
+ngrokregion="ap"
+elif [ "$ngrokregioninput" == "4" ]; then
+ngrokregion="au"
+elif [ "$ngrokregioninput" == "5" ]; then
+ngrokregion="sa"
+elif [ "$ngrokregioninput" == "6" ]; then
+ngrokregion="jp"
+elif [ "$ngrokregioninput" == "7" ]; then
+ngrokregion="in"
+elif [ "$ngrokregioninput" == "" ]; then
+echo -e "${green}[ Ngrok ]${NC}${red} Please insert region ngrok!${NC}"
+sleep 2
+clear
+regionngrok
+else
+ ngrokregion=$ngrokregioninput
+fi
+}
+
+ngrokconfiguration () {
+echo -e "           \e[40m[ Ngrok ]${NC}"
+echo -ne "${green}[ Ngrok ]${NC} Ngrok Authtoken (ctrl-v to paste): "
+read ngroktoken
+#green "Authtoken hide!"
+clear
+regionngrok
+
+clear
+echo -e "           \e[40m[ Ngrok ]${NC}"
+echo -ne "${green}[ Ngrok ]${NC} Ngrok Authtoken (ctrl-v to paste): "
+green "Authtoken hide & saved!"
+echo -e "${green}[ Ngrok ]${NC}     \e[0;90mNgrok Region${NC}"
+echo -e "${yell}1.${NC} us - United States (Ohio)"
+echo -e "${yell}2.${NC} eu - Europe (Frankfurt)"
+echo -e "${yell}3.${NC} ap - Asia/Pasific (Singapore)"
+echo -e "${yell}4.${NC} au - Australia (Sydney)"
+echo -e "${yell}5.${NC} sa - South America (Sao"
+echo -e "${yell}6.${NC} jp - Japan (Tokyo)"
+echo -e "${yell}7.${NC} in - India (Mumbai)"
+echo -ne "${green}[ Ngrok ]${NC} Choice wan't region do you want: "
+green "$ngrokregion"
+echo -ne "${green}[ Ngrok ]${NC} Save your setting as default? (y/n): "
+read savesettingngrok
+clear
+echo -e "           \e[40m[ Ngrok ]${NC}"
+echo -ne "${green}[ Ngrok ]${NC} Ngrok Authtoken (ctrl-v to paste): "
+green "Authtoken hide & saved!"
+echo -e "${green}[ Ngrok ]${NC}     \e[0;90mNgrok Region${NC}"
+echo -e "${yell}1.${NC} us - United States (Ohio)"
+echo -e "${yell}2.${NC} eu - Europe (Frankfurt)"
+echo -e "${yell}3.${NC} ap - Asia/Pasific (Singapore)"
+echo -e "${yell}4.${NC} au - Australia (Sydney)"
+echo -e "${yell}5.${NC} sa - South America (Sao"
+echo -e "${yell}6.${NC} jp - Japan (Tokyo)"
+echo -e "${yell}7.${NC} in - India (Mumbai)"
+echo -ne "${green}[ Ngrok ]${NC} Choice wan't region do you want: "
+green "$ngrokregion"
+if [ "$savesettingngrok" == "${savesettingngrok#[Yy]}" ]; then
+echo -ne "${green}[ Ngrok ]${NC} Save your setting as default? (y/n): "
+red "No"
+echo -e "${NC}${green}[ Ngrok ]${NC} Your current setting not saved as default"
+else
+echo -ne "${green}[ Ngrok ]${NC} Save your setting as default? (y/n): "
+green "Yes"
+echo -e "${green}[ Ngrok ]${NC} Your current setting has been saved as default!"
+rm -rf ngrokregiontxt
+rm -rf ngroktokentxt
+echo $ngroktoken > ngroktokentxt
+echo $ngrokregion > ngrokregiontxt
+fi
+sleep 2
+}
+
+if [ ! -f "dontasksavedconf" ]; then
+ if [ ! -f "ngrokregiontxt" ] && [ ! -f "ngroktokentxt" ]; then
+  ngrokconfiguration
+ else
+  echo -e "           \e[40m[ Ngrok ]${NC}"
+  echo -ne "${green}[ Ngrok ]${NC} Do you want to use your saved configuration token? (y/n): "
+  read loadconfigngrokconfirm
+  clear
+  echo -e "           \e[40m[ Ngrok ]${NC}"
+  if [ "$loadconfigngrokconfirm" == "${loadconfigngrokconfirm#[Yy]}" ]; then
+   echo -ne "${green}[ Ngrok ]${NC} Do you want to use your saved configuration token? (y/n): "
+   red "No"
+   echo -e "${green}[ Ngrok ]${NC} Configuring a new config..."
+   rm -rf ngroktokentxt
+   rm -rf ngrokregiontxt
+   sleep 1
+   clear
+   ngrokconfiguration
+  else
+   echo -ne "${green}[ Ngrok ]${NC} Do you want to use your saved configuration token? (y/n): "
+   green "Yes"
+   echo -e "${green}[ Ngrok ]${NC} Using saved configuration...."
+   echo -ne "${green}[ Ngrok ]${NC} Don't ask this question again? (y/n): "
+   read dontaskmengrok
+   clear
+   echo -e "           \e[40m[ Ngrok ]${NC}"
+   echo -ne "${green}[ Ngrok ]${NC} Do you want to use your saved configuration token? (y/n): "
+   green "Yes"
+   echo -e "${green}[ Ngrok ]${NC} Using saved configuration...."
+   if [ "$dontaskmengrok" == "${dontaskmengrok#[Yy]}" ]; then
+    echo -ne "${green}[ Ngrok ]${NC} Don't ask this question again? (y/n): "
+    red "No"
+    echo -e "${green}[ Ngrok ]${NC} We will ask you before rdp start"
+    sleep 1
+   else
+    echo -ne "${green}[ Ngrok ]${NC} Don't ask this question again? (y/n): "
+    green "Yes"
+    echo -e "${green}[ Ngrok ]${NC} We will not ask you again about this in another time.."
+    echo "dont ask me again about saved file ngrok" > dontasksavedconf
+    sleep 1
+   fi
+ #sleep 2
+ ngrokregionvariabel=$(cat ngrokregiontxt)
+  fi
+ fi
+fi
