@@ -10,7 +10,7 @@ cd /home
 if [ -d "rdp_file" ]; then
  cd rdp_file
 else
- echo -e "[ ${green}System${NC} ]${red} Can't find any image installed, please install software installer to download image!${NC}"
+ echo -e "[${red}*]${red} Can't find any image installed, please install software installer to download image!${NC}"
  exit 1
 fi
 
