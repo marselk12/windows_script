@@ -8,6 +8,7 @@ yell='33m'
 tyblue='36m'
 NC='\e[0m'
 clear
+echo -e "${strnd}${red}a"
 cd /home
 if [ -d "rdp_file" ]; then
  cd rdp_file
