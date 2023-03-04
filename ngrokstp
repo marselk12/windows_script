@@ -1,155 +1,118 @@
-red='\e[1;31m'
-green='\e[0;32m'
-yell='\e[1;33m'
-tyblue='\e[1;36m'
+bold='1'
+strnd='0'
+clr='\e['
+dflt='\e[0'
+undrln='4'
+red=';31m'
+green=';32m'
+yell=';33m'
+tyblue=';36m'
 NC='\e[0m'
-
+greenhighlight=';32m'
+purplee=';1m'
 purple() { echo -e "\\033[35;1m${*}\\033[0m"; }
 tyblue() { echo -e "\\033[36;1m${*}\\033[0m"; }
 yellow() { echo -e "\\033[33;1m${*}\\033[0m"; }
 green() { echo -e "\\033[32;1m${*}\\033[0m"; }
 red() { echo -e "\\033[31;1m${*}\\033[0m"; }
 
-cd /home/
-cd rdp_file
+imgselection=" "
 
-regionngrok() {
-echo -e "           \e[40m[ Ngrok ]${NC}"
-echo -ne "${green}[ Ngrok ]${NC} Ngrok Authtoken (ctrl-v to paste): "
-green "Authtoken hide & saved!"
-./ngrok authtoken $ngroktoken > /dev/null 2>&1
-echo -e "${green}[ Ngrok ]${NC}     \e[0;90mNgrok Region${NC}"
-echo -e "${yell}1.${NC} us - United States (Ohio)"
-echo -e "${yell}2.${NC} eu - Europe (Frankfurt)"
-echo -e "${yell}3.${NC} ap - Asia/Pasific (Singapore)"
-echo -e "${yell}4.${NC} au - Australia (Sydney)"
-echo -e "${yell}5.${NC} sa - South America (Sao"
-echo -e "${yell}6.${NC} jp - Japan (Tokyo)"
-echo -e "${yell}7.${NC} in - India (Mumbai)"
-echo -ne "${green}[ Ngrok ]${NC} Choice wan't region do you want: "
-read ngrokregioninput
-
-if [ "$ngrokregioninput" == "1" ]; then
-ngrokregion="us"
-elif [ "$ngrokregioninput" == "2" ]; then
-ngrokregion="eu"
-elif [ "$ngrokregioninput" == "3" ]; then
-ngrokregion="ap"
-elif [ "$ngrokregioninput" == "4" ]; then
-ngrokregion="au"
-elif [ "$ngrokregioninput" == "5" ]; then
-ngrokregion="sa"
-elif [ "$ngrokregioninput" == "6" ]; then
-ngrokregion="jp"
-elif [ "$ngrokregioninput" == "7" ]; then
-ngrokregion="in"
-elif [ "$ngrokregioninput" == "" ]; then
-echo -e "${green}[ Ngrok ]${NC}${red} Please insert region ngrok!${NC}"
-sleep 2
-clear
-regionngrok
-else
- ngrokregion=$ngrokregioninput
-fi
-}
-
-ngrokconfiguration () {
-echo -e "           \e[40m[ Ngrok ]${NC}"
-echo -ne "${green}[ Ngrok ]${NC} Ngrok Authtoken (ctrl-v to paste): "
-read ngroktoken
-#green "Authtoken hide!"
-clear
-regionngrok
-
-clear
-echo -e "           \e[40m[ Ngrok ]${NC}"
-echo -ne "${green}[ Ngrok ]${NC} Ngrok Authtoken (ctrl-v to paste): "
-green "Authtoken hide & saved!"
-echo -e "${green}[ Ngrok ]${NC}     \e[0;90mNgrok Region${NC}"
-echo -e "${yell}1.${NC} us - United States (Ohio)"
-echo -e "${yell}2.${NC} eu - Europe (Frankfurt)"
-echo -e "${yell}3.${NC} ap - Asia/Pasific (Singapore)"
-echo -e "${yell}4.${NC} au - Australia (Sydney)"
-echo -e "${yell}5.${NC} sa - South America (Sao"
-echo -e "${yell}6.${NC} jp - Japan (Tokyo)"
-echo -e "${yell}7.${NC} in - India (Mumbai)"
-echo -ne "${green}[ Ngrok ]${NC} Choice wan't region do you want: "
-green "$ngrokregion"
-echo -ne "${green}[ Ngrok ]${NC} Save your setting as default? (y/n): "
-read savesettingngrok
-clear
-echo -e "           \e[40m[ Ngrok ]${NC}"
-echo -ne "${green}[ Ngrok ]${NC} Ngrok Authtoken (ctrl-v to paste): "
-green "Authtoken hide & saved!"
-echo -e "${green}[ Ngrok ]${NC}     \e[0;90mNgrok Region${NC}"
-echo -e "${yell}1.${NC} us - United States (Ohio)"
-echo -e "${yell}2.${NC} eu - Europe (Frankfurt)"
-echo -e "${yell}3.${NC} ap - Asia/Pasific (Singapore)"
-echo -e "${yell}4.${NC} au - Australia (Sydney)"
-echo -e "${yell}5.${NC} sa - South America (Sao"
-echo -e "${yell}6.${NC} jp - Japan (Tokyo)"
-echo -e "${yell}7.${NC} in - India (Mumbai)"
-echo -ne "${green}[ Ngrok ]${NC} Choice wan't region do you want: "
-green "$ngrokregion"
-if [ "$savesettingngrok" == "${savesettingngrok#[Yy]}" ]; then
-echo -ne "${green}[ Ngrok ]${NC} Save your setting as default? (y/n): "
-red "No"
-echo -e "${NC}${green}[ Ngrok ]${NC} Your current setting not saved as default"
-else
-echo -ne "${green}[ Ngrok ]${NC} Save your setting as default? (y/n): "
-green "Yes"
-echo -e "${green}[ Ngrok ]${NC} Your current setting has been saved as default!"
-rm -rf ngrokregiontxt
-rm -rf ngroktokentxt
-echo $ngroktoken > ngroktokentxt
-echo $ngrokregion > ngrokregiontxt
-fi
-sleep 2
-}
-
-if [ ! -f "dontasksavedconf" ]; then
- if [ ! -f "ngrokregiontxt" ] && [ ! -f "ngroktokentxt" ]; then
-  ngrokconfiguration
+imgsoft() {
+ echo -e "[ ${dflt}${green}Software${NC} ] ${dflt}${red}Software${dflt}${tybluee} Image ${NC}"
+ if [[ $imgselection == " " ]]; then
+  echo -e "${dflt}${yell}1. ${dflt}${tyblue}Windows 2012 ${dflt}${yell}x64${NC}"
+  echo -e "${dflt}${yell}2. ${dflt}${tyblue}Windows 7 ${dflt}${yell}x64${NC}"
+  echo -e "${dflt}${yell}3. ${dflt}${tyblue}Windows 10 ${dflt}${yell}x64 ${dflt}${green}(Size: 10 GB)${NC}"
  else
-  echo -e "           \e[40m[ Ngrok ]${NC}"
-  echo -ne "${green}[ Ngrok ]${NC} Do you want to use your saved configuration token? (y/n): "
-  read loadconfigngrokconfirm
-  clear
-  echo -e "           \e[40m[ Ngrok ]${NC}"
-  if [ "$loadconfigngrokconfirm" == "${loadconfigngrokconfirm#[Yy]}" ]; then
-   echo -ne "${green}[ Ngrok ]${NC} Do you want to use your saved configuration token? (y/n): "
-   red "No"
-   echo -e "${green}[ Ngrok ]${NC} Configuring a new config..."
-   rm -rf ngroktokentxt
-   rm -rf ngrokregiontxt
-   sleep 1
-   clear
-   ngrokconfiguration
-  else
-   echo -ne "${green}[ Ngrok ]${NC} Do you want to use your saved configuration token? (y/n): "
-   green "Yes"
-   echo -e "${green}[ Ngrok ]${NC} Using saved configuration...."
-   echo -ne "${green}[ Ngrok ]${NC} Don't ask this question again? (y/n): "
-   read dontaskmengrok
-   clear
-   echo -e "           \e[40m[ Ngrok ]${NC}"
-   echo -ne "${green}[ Ngrok ]${NC} Do you want to use your saved configuration token? (y/n): "
-   green "Yes"
-   echo -e "${green}[ Ngrok ]${NC} Using saved configuration...."
-   if [ "$dontaskmengrok" == "${dontaskmengrok#[Yy]}" ]; then
-    echo -ne "${green}[ Ngrok ]${NC} Don't ask this question again? (y/n): "
-    red "No"
-    echo -e "${green}[ Ngrok ]${NC} We will ask you before rdp start"
-    sleep 1
-   else
-    echo -ne "${green}[ Ngrok ]${NC} Don't ask this question again? (y/n): "
-    green "Yes"
-    echo -e "${green}[ Ngrok ]${NC} We will not ask you again about this in another time.."
-    echo "dont ask me again about saved file ngrok" > dontasksavedconf
-    sleep 1
-   fi
- #sleep 2
- ngrokregionvariabel=$(cat ngrokregiontxt)
+  if [ $imgselection != "1" ]; then
+   echo -e "${dflt}${yell}1. ${dflt}${tyblue}Windows 2012 ${dflt}${dflt}${yell}x64${NC}"
+  elif [ $imgselection == "1" ]; then
+   echo -e "${dflt}${yell}1. ${dflt}${green}Windows 2012 ${dflt}${yell}x64${NC}"
+   imgdownload="Windows 2012 x64"
+  fi
+  if [ $imgselection != "2" ]; then
+   echo -e "${dflt}${yell}2. ${dflt}${tyblue}Windows 7 ${dflt}${yell}x64${NC}"
+  elif [ $imgselection == "2" ]; then
+   echo -e "${dflt}${yell}2. ${dflt}${green}Windows 7 ${dflt}${yell}x64${NC}"
+   imgdownload="Windows 7 x64"
+  fi
+  if [ $imgselection != "3" ]; then
+   echo -e "${dflt}${yell}3. ${dflt}${tyblue}Windows 10 ${dflt}${yell}x64 ${dflt}${green}(Size: 10 GB)${NC}"
+  elif [ $imgselection == "3" ]; then
+   echo -e "${dflt}${yell}3. ${dflt}${green}Windows 10 ${dflt}${yell}x64${NC}"
+   imgdownload="Windows 10 x64"
   fi
  fi
-fi
+}
+
+imgsoftware() {
+ imgsoft
+ echo -ne "${dflt}${red}Select your software image${yell}: ${dflt}${NC}"
+ read imgselection
+ echo " "
+ echo " "
+ clear
+ imgsoft
+ echo " "
+ echo -e "$${dflt}{tyblue}[${dflt}${red} Software ${dflt}${tyblue}]${dflt}${green} Downloading ${dflt}${red}${imgdownload}${dflt}${yell}...${NC}"
+}
+
+updateframe() {
+ imgsoft
+ echo " "
+ echo -e "${dflt}${tyblue}[${dflt}${red} Software ${dflt}${tyblue}]${dflt}${green} Downloading ${dflt}${red}${imgdownload}$${dflt}{yell}...${NC}"
+ if [ $imgselection == "3" ]; then
+ echo -e "${dflt}${tyblue}[ ${dflt}${red}File ${dflt}${tyblue}]${dflt}${green} File size: ${dflt}${yell}10 GB${NC}"
+ fi
+}
+
+installimg() {
+ if [ $imgselection == "1" ]; then
+  
+  echo "img installed win 2012" > img-win-2012
+ fi
+ if [ $imgselection == "2" ]; then
+  
+  echo "img installed win 7" > img-win-7
+ fi
+ if [ $imgselection == "3" ]; then
+  echo -e "${dflt}${tyblue}[ ${dflt}${red}File ${dflt}${tyblue}]${dflt}${green} File size: ${dflt}${yell}10 GB${NC}"
+  if [ ! -f "win.vhd" ]; then
+   echo -e "${dflt}${tyblue}[ ${dflt}${red}File Downloader${dflt}${tyblue} ] ${dflt}${green}Progress:"
+   wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1uwOv6GWt42OxoXw3WgcXqVIr5lQKnIP_' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1uwOv6GWt42OxoXw3WgcXqVIr5lQKnIP_" -O win.vhd --show-progress -q --progress=bar && rm -rf /tmp/cookies.txt
+   echo "${NC}"
+   echo "img installed win 10" > img-win-10
+   echo "${NC}"
+  else
+   echo -ne "${dflt}${tyblue}[ ${dflt}${red}File ${dflt}${tyblue}] ${dflt}${red}File win10.vhd already existed before. ${dflt}${yell}Do you want to reinstall? ${dflt}${green}(Y/n): ${NC}"
+   read winexisted
+   if [ "$winexisted" == "${winexisted#[Yy]}" ]; then
+    clear
+    updateframe
+    echo -e "${dflt}${tyblue}[ ${dflt}${red}File ${dflt}${tyblue}] ${dflt}${red}File win10.vhd already existed before. ${dflt}${yell}Do you want to reinstall? ${dflt}${green}(Y/n):${dflt}${red} No${NC}"
+    echo -e "${dflt}${tyblue}[ ${dflt}${red}File ${dflt}${tyblue}] ${dflt}${red}Aborted installasion ${dflt}${greenhighlight}Windows 10!${NC}"
+    #sleep 1
+   else
+    clear
+    updateframe
+    echo -e "${dflt}${tyblue}[ ${dflt}${red}File ${dflt}${tyblue}] ${dflt}${red}File win10.vhd already existed before. ${dflt}${yell}Do you want to reinstall? ${dflt}${green}(Y/n):${green} Yes${NC}"
+    echo -e "${dflt}${tyblue}[ ${dflt}${red}File ${dflt}${tyblue}] ${dflt}${green}Reinstalling windows 10 image...${NC}"
+    rm -rf win10.vhd
+    sleep 1
+    updateframe
+    installimg
+   fi
+  fi
+ fi
+}
+
+imgsoftware
+cd /home/rdp_file
+installimg
+echo "software installed" > software-installed
+sleep 2
+
+#windows7img: https://bit.ly/akuhnetw7X64
+
+#wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1z72s8KAkpK0-vDgUdaBJtvffjRHjgu7I' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1z72s8KAkpK0-vDgUdaBJtvffjRHjgu7I" -O win.vhd --show-progress -q --progress=bar && rm -rf /tmp/cookies.txt
