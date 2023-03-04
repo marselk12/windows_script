@@ -1,14 +1,15 @@
 #/bin/bash
 
-bold='\e[1;'
-strnd='\e[0;'
-red='31m'
-green='32m'
-yell='33m'
-tyblue='36m'
+bold='\e[1'
+strnd='\e[0'
+undrln='4'
+red=';31m'
+green=';32m'
+yell=';33m'
+tyblue=';36m'
 NC='\e[0m'
 clear
-echo -e "${strnd}${red}a"
+echo -e "${strnd}${undrln}${red}a"
 cd /home
 if [ -d "rdp_file" ]; then
  cd rdp_file
